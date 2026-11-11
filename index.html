@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rhea Thomas · Projects</title>
+  <meta name="description" content="Projects by Rhea Thomas: machine learning, data engineering and full-stack apps, with live demos.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%238b5a83'/><text x='16' y='22' font-family='Arial' font-weight='700' font-size='15' fill='white' text-anchor='middle'>RT</text></svg>">
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#">Rhea Thomas</a>
+    <nav>
+      <a href="#projects">Projects</a>
+      <a href="#riskformer">RiskFormer</a>
+      <a href="#mosaic">Mosaic demo</a>
+      <a href="https://github.com/Rhea-Thomas">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <h1>Rhea Thomas</h1>
+    <p class="lede">Final-semester CS master's student, most recently a co-op at BSB. I build models, data pipelines and the software around them, then measure whether they actually hold up. A couple of them you can try right here, no download needed.</p>
+    <p class="hero-links">
+      <a class="btn" href="#projects">See the projects</a>
+      <a class="btn ghost" href="https://github.com/Rhea-Thomas">GitHub ↗</a>
+    </p>
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section id="projects" class="wrap">
+    <h2>Projects</h2>
+    <div class="cards">
+
+      <article class="card">
+        <a class="thumb" href="#riskformer"><img src="assets/riskformer/vol_forecast.png" alt="RiskFormer volatility forecasts against GARCH and realized volatility for SPY" loading="lazy"></a>
+        <div class="card-body">
+          <div class="tags"><span>PyTorch</span><span>Transformers</span><span>Time series</span></div>
+          <h3>RiskFormer</h3>
+          <p>A causal Transformer, written from scratch, that forecasts the <em>distribution</em> of next-day returns for SPY, QQQ and IWM: mean, volatility and 5/50/95% quantiles.</p>
+          <ul class="nums">
+            <li><b>0.436</b> QLIKE vs 0.446 for GARCH(1,1)</li>
+            <li><b>91%</b> of returns inside its 90% interval</li>
+            <li><b>98</b> tests, including leakage checks</li>
+          </ul>
+          <div class="actions"><a class="btn sm" href="#riskformer">Explore the results</a><a class="btn sm ghost" href="https://github.com/Rhea-Thomas/RiskFormer">Code ↗</a></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="thumb flow" aria-label="Pipeline: Postgres to Debezium to Kafka to Spark to Delta Lake to DuckDB and Trino">
+          <span>Postgres</span><i>→</i><span>Debezium</span><i>→</i><span>Kafka</span><i>→</i><span>Spark</span><i>→</i><span class="hl">Delta Lake</span><i>→</i><span>DuckDB · Trino</span>
+          <div class="layers"><span>bronze</span><span>silver</span><span>quarantine</span><span>SCD2</span><span>gold</span></div>
+        </div>
+        <div class="card-body">
+          <div class="tags"><span>Kafka</span><span>Spark</span><span>Delta Lake</span><span>dbt</span><span>Airflow</span></div>
+          <h3>DeltaLake</h3>
+          <p>A streaming change-data-capture lakehouse: every row change in Postgres flows through Kafka and Spark Structured Streaming into Delta tables, then a dbt star schema.</p>
+          <ul class="nums">
+            <li><b>13 s</b> p50 from Postgres commit to queryable</li>
+            <li><b>7 / 7</b> injected failures recovered and reconciled exactly</li>
+            <li><b>490k</b> change events, zero lost or duplicated</li>
+          </ul>
+          <div class="actions"><a class="btn sm ghost" href="https://github.com/Rhea-Thomas/DeltaLake">Code and results ↗</a></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <a class="thumb" href="#mosaic"><img src="assets/mosaic/gallery.jpg" alt="One photo rendered as six different mosaics" loading="lazy"></a>
+        <div class="card-body">
+          <div class="tags"><span>NumPy</span><span>OpenCV</span><span>Gradio</span></div>
+          <h3>Mosaic Generator</h3>
+          <p>Turns any photo into a mosaic of patterned tiles, with 14 tile styles, 5 palettes and image-quality scoring. The vectorized pipeline is up to 16.7× faster than a loop version.</p>
+          <ul class="nums">
+            <li><b>Live</b>: runs in your browser below</li>
+            <li><b>16.7×</b> speedup at 128 × 128</li>
+          </ul>
+          <div class="actions"><a class="btn sm" href="#mosaic">Try it</a><a class="btn sm ghost" href="https://github.com/Rhea-Thomas/Mosaic-Generator">Code ↗</a></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <a class="thumb" href="#blackhole"><img src="assets/blackhole/home.jpg" alt="Black Hole Tracker home page" loading="lazy"></a>
+        <div class="card-body">
+          <div class="tags"><span>Flask</span><span>PostgreSQL</span><span>SQL</span></div>
+          <h3>Black Hole Tracker</h3>
+          <p>A web app for black hole observations and gravitational-wave events, built on a normalized PostgreSQL schema with stored procedures, audit triggers and analytics reports.</p>
+          <ul class="nums">
+            <li><b>3NF</b> schema with stored procedures and triggers</li>
+            <li><b>8</b> analytics reports and a custom dashboard builder</li>
+          </ul>
+          <div class="actions"><a class="btn sm" href="#blackhole">Screenshots</a><a class="btn sm ghost" href="https://github.com/Rhea-Thomas/Blackhole-Tracker">Code ↗</a></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="thumb digest">
+          <div class="digest-in">
+            <div class="d-title">Efficient Retrieval for Small Language Models</div>
+            <div><b>Problem</b> Can small retrieval-augmented models match larger LMs on QA?</div>
+            <div><b>Method</b> Dense retriever + 1B generator on NaturalQuestions</div>
+            <div><b>Results</b> 62.3 EM, within 2 pts of 7B, ~6× less compute</div>
+            <div><b>Limitations</b> English only; no multi-hop</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="tags"><span>Claude Skill</span><span>Python</span><span>CI</span></div>
+          <h3>Paper Digest</h3>
+          <p>A Claude Skill that turns a research-paper PDF into a Problem / Method / Results / Limitations digest, so you can triage a paper in a minute. Text extraction is deterministic and tested.</p>
+          <ul class="nums">
+            <li>Above: real output for the sample paper</li>
+          </ul>
+          <div class="actions"><a class="btn sm ghost" href="https://github.com/Rhea-Thomas/Paper-Digest-skill">Code ↗</a></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="thumb loop">
+          <ol>
+            <li>Current knowledge</li>
+            <li>Sourced lesson</li>
+            <li>Assignment + xUnit tests</li>
+            <li>Updated state, committed</li>
+          </ol>
+        </div>
+        <div class="card-body">
+          <div class="tags"><span>Claude Code</span><span>C# / .NET</span><span>Education</span></div>
+          <h3>teach-code</h3>
+          <p>A Claude Code skill that teaches programming over many sessions. It keeps a persistent record of what you know, writes one cited lesson at a time, and grades assignments with real test runs.</p>
+          <div class="actions"><a class="btn sm ghost" href="https://github.com/Rhea-Thomas/teach-code">Code ↗</a></div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============ RISKFORMER ============ -->
+  <section id="riskformer" class="wrap feature">
+    <div class="feature-head">
+      <p class="eyebrow">Interactive results</p>
+      <h2>RiskFormer: explore the forecasts</h2>
+      <p class="sub">Every point below is an out-of-sample forecast from Jan 2023 to Dec 2025, on data the model never trained on. The RiskFormer shown is the model trained once on 2015–2021; the baselines are refit every quarter with only past data. Hover or tap a chart to read values.</p>
+    </div>
+
+    <div class="controls">
+      <div class="seg" id="rf-assets" role="group" aria-label="ETF"></div>
+      <div class="chips" id="rf-models" aria-label="Models to compare"></div>
+    </div>
+
+    <div class="stats" id="rf-stats"></div>
+
+    <figure class="panel">
+      <figcaption><b><span id="rf-asset-name"></span> volatility: forecast vs realized</b><span>Annualized, %. Gray is what actually happened over the next 5 days.</span></figcaption>
+      <div class="legend" id="rf-vol-legend"></div>
+      <div class="chart" id="rf-vol"></div>
+    </figure>
+
+    <figure class="panel">
+      <figcaption><b><span id="rf-asset-name2"></span> daily returns vs RiskFormer's 90% interval</b><span>If the uncertainty is the right size, about 1 day in 10 lands outside the band.</span></figcaption>
+      <div class="legend"><span class="key"><span class="sw band-sw s1"></span>90% interval</span><span class="key"><span class="sw pt-sw"></span>Inside</span><span class="key"><span class="sw pt-out-sw"></span>Outside</span></div>
+      <div class="chart" id="rf-int"></div>
+    </figure>
+
+    <figure class="panel">
+      <figcaption><b>Backtests: growth of 100, net of costs</b><span>Equal-weight portfolio of all three ETFs, 10 bps per unit of turnover, 10% volatility target.</span></figcaption>
+      <div class="legend" id="rf-eq-legend"></div>
+      <div class="chart" id="rf-eq"></div>
+      <p class="note">The honest result: better volatility forecasts did not beat buy and hold in this bull market. Vol targeting cut exposure after the April 2025 shock and missed part of the rebound. The project reports this rather than tuning it away.</p>
+    </figure>
+  </section>
+
+  <!-- ============ MOSAIC ============ -->
+  <section id="mosaic" class="wrap feature">
+    <div class="feature-head">
+      <p class="eyebrow">Live demo</p>
+      <h2>Mosaic Generator: try it</h2>
+      <p class="sub">This is the project's pipeline ported to JavaScript, so it runs entirely in your browser. Your photo is never uploaded anywhere. 10 of the 14 tile styles are included here; the full set is in the Python app.</p>
+    </div>
+
+    <div class="mz-controls panel">
+      <label class="field">Grid <span id="mz-grid-val">32 × 32</span>
+        <input type="range" id="mz-grid" min="8" max="128" step="4" value="32">
+      </label>
+      <label class="field">Palette
+        <select id="mz-palette"></select>
+        <span class="swatches" id="mz-swatches"></span>
+      </label>
+      <label class="field">Tile style <select id="mz-style"></select></label>
+      <div class="field buttons">
+        <label class="btn sm">Upload a photo<input type="file" id="mz-file" accept="image/*" hidden></label>
+        <button class="btn sm ghost" id="mz-sample" type="button">Use sample</button>
+        <button class="btn sm ghost" id="mz-download" type="button">Download PNG</button>
+      </div>
+    </div>
+
+    <div class="mz-grid">
+      <figure><canvas id="mz-orig"></canvas><figcaption>1 · Original (cropped to the grid)</figcaption></figure>
+      <figure><canvas id="mz-seg"></canvas><figcaption>2 · Each cell snapped to the palette</figcaption></figure>
+      <figure class="big"><canvas id="mz-out"></canvas><figcaption>3 · Mosaic</figcaption></figure>
+    </div>
+
+    <div class="stats four">
+      <div class="stat"><div class="k">MSE ↓</div><div class="v" id="mz-mse">–</div><div class="s">Pixel error vs original (grayscale)</div></div>
+      <div class="stat"><div class="k">SSIM ↑</div><div class="v" id="mz-ssim">–</div><div class="s">Structural similarity, 0 to 1</div></div>
+      <div class="stat"><div class="k">PSNR ↑</div><div class="v" id="mz-psnr">–</div><div class="s">Signal-to-noise ratio</div></div>
+      <div class="stat"><div class="k">Time</div><div class="v" id="mz-time">–</div><div class="s">In your browser</div></div>
+    </div>
+    <p class="note" id="mz-status" aria-live="polite"></p>
+    <p class="note">Sample photo: <code>coffee</code> from scikit-image's sample data (CC0). Large uploads are scaled to 800 px on the long side first.</p>
+  </section>
+
+  <!-- ============ BLACKHOLE ============ -->
+  <section id="blackhole" class="wrap feature">
+    <div class="feature-head">
+      <p class="eyebrow">Screenshots</p>
+      <h2>Black Hole Tracker</h2>
+      <p class="sub">The app runs on Flask and PostgreSQL, so it isn't hosted here. These are real screenshots of it running against the sample database.</p>
+    </div>
+    <figure class="panel gallery">
+      <div class="shot-frame" tabindex="0" aria-label="Screenshot, scrollable"><img id="bh-main" src="assets/blackhole/home.jpg" alt="Home page"></div>
+      <figcaption id="bh-caption">Home page</figcaption>
+      <div class="thumbs" id="bh-thumbs">
+        <button type="button" aria-pressed="true" data-src="assets/blackhole/home.jpg" data-alt="Home page"><img src="assets/blackhole/home.jpg" alt=""></button>
+        <button type="button" aria-pressed="false" data-src="assets/blackhole/search_results.jpg" data-alt="Search results"><img src="assets/blackhole/search_results.jpg" alt="" loading="lazy"></button>
+        <button type="button" aria-pressed="false" data-src="assets/blackhole/black_holes.jpg" data-alt="Black hole catalog"><img src="assets/blackhole/black_holes.jpg" alt="" loading="lazy"></button>
+        <button type="button" aria-pressed="false" data-src="assets/blackhole/gw_events.jpg" data-alt="Gravitational-wave events"><img src="assets/blackhole/gw_events.jpg" alt="" loading="lazy"></button>
+        <button type="button" aria-pressed="false" data-src="assets/blackhole/custom_dashboard.jpg" data-alt="Custom dashboard builder"><img src="assets/blackhole/custom_dashboard.jpg" alt="" loading="lazy"></button>
+        <button type="button" aria-pressed="false" data-src="assets/blackhole/reports.jpg" data-alt="Analytics reports"><img src="assets/blackhole/reports.jpg" alt="" loading="lazy"></button>
+      </div>
+    </figure>
+  </section>
+</main>
+
+<footer class="wrap foot">
+  <span>Rhea Thomas</span>
+  <a href="https://github.com/Rhea-Thomas">github.com/Rhea-Thomas</a>
+</footer>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
