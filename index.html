@@ -37,51 +37,64 @@
   <!-- ============ PROJECTS ============ -->
   <section id="projects" class="wrap">
     <h2>Projects</h2>
+    <p class="section-intro">Each card starts with what the project does, in plain English. If you'd like the technical version, open “How it's built.”</p>
     <div class="cards">
 
       <article class="card">
-        <a class="thumb" href="#riskformer"><img src="assets/riskformer/vol_forecast.png" alt="RiskFormer volatility forecasts against GARCH and realized volatility for SPY" loading="lazy"></a>
+        <a class="thumb" href="#riskformer"><img src="assets/riskformer/vol_forecast.png" alt="Chart of RiskFormer's predicted market swings against what actually happened" loading="lazy"></a>
         <div class="card-body">
-          <div class="tags"><span>PyTorch</span><span>Transformers</span><span>Time series</span></div>
+          <p class="kicker">AI · Finance</p>
           <h3>RiskFormer</h3>
-          <p>A causal Transformer, written from scratch, that forecasts the <em>distribution</em> of next-day returns for SPY, QQQ and IWM: mean, volatility and 5/50/95% quantiles.</p>
+          <p class="plain">Can a computer tell how bumpy the stock market will be tomorrow? RiskFormer is an AI model that tries. It doesn't guess whether prices go up or down (nobody can do that reliably). It predicts <strong>how much they're likely to swing</strong>, which is what banks and investors use to manage risk.</p>
           <ul class="nums">
-            <li><b>0.436</b> QLIKE vs 0.446 for GARCH(1,1)</li>
-            <li><b>91%</b> of returns inside its 90% interval</li>
-            <li><b>98</b> tests, including leakage checks</li>
+            <li><b>Beat the standard method</b> that finance textbooks teach, on three years of data it had never seen</li>
+            <li><b>Honest about uncertainty:</b> when it said “90% sure the price lands in this range,” it did 91% of the time</li>
+            <li><b>Built from scratch,</b> including the AI's core math</li>
           </ul>
-          <div class="actions"><a class="btn sm" href="#riskformer">Explore the results</a><a class="btn sm ghost" href="https://github.com/Rhea-Thomas/RiskFormer">Code ↗</a></div>
+          <details class="tech"><summary>How it's built</summary>
+            <p>A causal Transformer written from scratch in PyTorch that forecasts the distribution of next-day returns for SPY, QQQ and IWM: mean, volatility and 5/50/95% quantiles. Out of sample (2023–2025) it scores QLIKE 0.436 vs 0.446 for GARCH(1,1), with walk-forward validation, an embargo against look-ahead leakage and 98 tests.</p>
+            <div class="tags"><span>PyTorch</span><span>Transformers</span><span>Time series</span><span>Backtesting</span></div>
+          </details>
+          <div class="actions"><a class="btn sm" href="#riskformer">See the results</a><a class="btn sm ghost" href="https://github.com/Rhea-Thomas/RiskFormer">Code ↗</a></div>
         </div>
       </article>
 
       <article class="card">
-        <div class="thumb flow" aria-label="Pipeline: Postgres to Debezium to Kafka to Spark to Delta Lake to DuckDB and Trino">
-          <span>Postgres</span><i>→</i><span>Debezium</span><i>→</i><span>Kafka</span><i>→</i><span>Spark</span><i>→</i><span class="hl">Delta Lake</span><i>→</i><span>DuckDB · Trino</span>
-          <div class="layers"><span>bronze</span><span>silver</span><span>quarantine</span><span>SCD2</span><span>gold</span></div>
+        <div class="thumb flow" aria-label="Diagram: data flows from the live database, through a stream, into an analysis copy">
+          <span>Live database</span><i>→</i><span>Change stream</span><i>→</i><span>Processing</span><i>→</i><span class="hl">Analysis copy</span><i>→</i><span>Reports</span>
+          <div class="layers"><span>raw</span><span>cleaned</span><span>rejected</span><span>history</span><span>reports</span></div>
         </div>
         <div class="card-body">
-          <div class="tags"><span>Kafka</span><span>Spark</span><span>Delta Lake</span><span>dbt</span><span>Airflow</span></div>
+          <p class="kicker">Data engineering</p>
           <h3>DeltaLake</h3>
-          <p>A streaming change-data-capture lakehouse: every row change in Postgres flows through Kafka and Spark Structured Streaming into Delta tables, then a dbt star schema.</p>
+          <p class="plain">An online store keeps its orders and customers in a live database. Analysts need a copy of that data to study, without slowing down the real store. DeltaLake <strong>keeps that copy up to date automatically</strong>, within seconds of every change, and never loses or double-counts a record, even when parts of the system crash.</p>
           <ul class="nums">
-            <li><b>13 s</b> p50 from Postgres commit to queryable</li>
-            <li><b>7 / 7</b> injected failures recovered and reconciled exactly</li>
-            <li><b>490k</b> change events, zero lost or duplicated</li>
+            <li><b>About 13 seconds</b> from a change in the store to it showing up for analysts</li>
+            <li><b>Crash-tested:</b> I broke each part on purpose 7 different ways, and it recovered every time with nothing lost</li>
+            <li><b>Nearly half a million changes</b> tracked, every one accounted for</li>
           </ul>
+          <details class="tech"><summary>How it's built</summary>
+            <p>A streaming change-data-capture lakehouse: Postgres → Debezium → Kafka → PySpark Structured Streaming → Delta Lake (bronze, silver, quarantine, SCD Type 2), with a dbt star schema on Trino, Airflow orchestration and DuckDB/Trino queries. p50 end-to-end latency 13 s; 7/7 failure-injection scenarios reconciled exactly over 490k events.</p>
+            <div class="tags"><span>Kafka</span><span>Spark</span><span>Delta Lake</span><span>dbt</span><span>Airflow</span><span>Trino</span></div>
+          </details>
           <div class="actions"><a class="btn sm ghost" href="https://github.com/Rhea-Thomas/DeltaLake">Code and results ↗</a></div>
         </div>
       </article>
 
       <article class="card">
-        <a class="thumb" href="#mosaic"><img src="assets/mosaic/gallery.jpg" alt="One photo rendered as six different mosaics" loading="lazy"></a>
+        <a class="thumb" href="#mosaic"><img src="assets/mosaic/gallery.jpg" alt="One coffee photo turned into six different mosaics" loading="lazy"></a>
         <div class="card-body">
-          <div class="tags"><span>NumPy</span><span>OpenCV</span><span>Gradio</span></div>
+          <p class="kicker">Images · Try it</p>
           <h3>Mosaic Generator</h3>
-          <p>Turns any photo into a mosaic of patterned tiles, with 14 tile styles, 5 palettes and image-quality scoring. The vectorized pipeline is up to 16.7× faster than a loop version.</p>
+          <p class="plain">Give it a photo and it <strong>rebuilds the picture out of tiny tiles</strong>, like a mosaic or cross-stitch, in the colors and shapes you pick: circles, hexagons, even little fractals. It also scores how close the mosaic still looks to the original.</p>
           <ul class="nums">
-            <li><b>Live</b>: runs in your browser below</li>
-            <li><b>16.7×</b> speedup at 128 × 128</li>
+            <li><b>Try it yourself</b> below, right in your browser, with your own photo</li>
+            <li><b>Up to 16.7× faster</b> after I rewrote the core step to handle the whole picture at once instead of one tile at a time</li>
           </ul>
+          <details class="tech"><summary>How it's built</summary>
+            <p>Python, NumPy and OpenCV with a Gradio UI: N×N grid averaging with a single reshape, vectorized nearest-palette quantization, 14 pre-rendered tile styles, and MSE / SSIM / PSNR scoring. The vectorized pipeline is 16.7× faster than a loop version at 128×128. The demo on this page is a JavaScript port of the same pipeline.</p>
+            <div class="tags"><span>NumPy</span><span>OpenCV</span><span>Gradio</span><span>JavaScript</span></div>
+          </details>
           <div class="actions"><a class="btn sm" href="#mosaic">Try it</a><a class="btn sm ghost" href="https://github.com/Rhea-Thomas/Mosaic-Generator">Code ↗</a></div>
         </div>
       </article>
@@ -89,14 +102,19 @@
       <article class="card">
         <a class="thumb" href="#blackhole"><img src="assets/blackhole/home.jpg" alt="Black Hole Tracker home page" loading="lazy"></a>
         <div class="card-body">
-          <div class="tags"><span>Flask</span><span>PostgreSQL</span><span>SQL</span></div>
+          <p class="kicker">Website · Database</p>
           <h3>Black Hole Tracker</h3>
-          <p>A web app for black hole observations and gravitational-wave events, built on a normalized PostgreSQL schema with stored procedures, audit triggers and analytics reports.</p>
+          <p class="plain">A website where astronomers can <strong>record, search and compare observations of black holes</strong> and gravitational waves, the ripples in space made when black holes collide. Behind it is a carefully organized database that checks new data and keeps a history of every change.</p>
           <ul class="nums">
-            <li><b>3NF</b> schema with stored procedures and triggers</li>
-            <li><b>8</b> analytics reports and a custom dashboard builder</li>
+            <li><b>Search, add and edit</b> records, plus 8 ready-made reports</li>
+            <li><b>Build your own dashboard</b> from the data</li>
+            <li><b>Every change is logged</b> automatically</li>
           </ul>
-          <div class="actions"><a class="btn sm" href="#blackhole">Screenshots</a><a class="btn sm ghost" href="https://github.com/Rhea-Thomas/Blackhole-Tracker">Code ↗</a></div>
+          <details class="tech"><summary>How it's built</summary>
+            <p>Flask and PostgreSQL: a normalized (3NF) schema with stored procedures, audit triggers, analytics queries and a custom dashboard builder. Configuration comes from environment variables.</p>
+            <div class="tags"><span>Flask</span><span>PostgreSQL</span><span>SQL</span><span>Python</span></div>
+          </details>
+          <div class="actions"><a class="btn sm" href="#blackhole">See screenshots</a><a class="btn sm ghost" href="https://github.com/Rhea-Thomas/Blackhole-Tracker">Code ↗</a></div>
         </div>
       </article>
 
@@ -111,12 +129,16 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="tags"><span>Claude Skill</span><span>Python</span><span>CI</span></div>
+          <p class="kicker">AI · Reading assistant</p>
           <h3>Paper Digest</h3>
-          <p>A Claude Skill that turns a research-paper PDF into a Problem / Method / Results / Limitations digest, so you can triage a paper in a minute. Text extraction is deterministic and tested.</p>
+          <p class="plain">Research papers are long and dense. This is an add-on for Claude, an AI assistant, that <strong>reads a paper and writes a one-minute summary</strong>: what problem it tackles, how, what it found, and where it falls short. You can tell quickly whether a paper is worth reading in full.</p>
           <ul class="nums">
-            <li>Above: real output for the sample paper</li>
+            <li><b>Above:</b> a real summary it wrote for a sample paper</li>
           </ul>
+          <details class="tech"><summary>How it's built</summary>
+            <p>A Claude Skill with two separate stages: deterministic PDF text extraction (pypdf, unit-tested in CI), then a structured Problem / Method / Results / Limitations prompt.</p>
+            <div class="tags"><span>Claude Skill</span><span>Python</span><span>pypdf</span><span>CI</span></div>
+          </details>
           <div class="actions"><a class="btn sm ghost" href="https://github.com/Rhea-Thomas/Paper-Digest-skill">Code ↗</a></div>
         </div>
       </article>
@@ -124,16 +146,20 @@
       <article class="card">
         <div class="thumb loop">
           <ol>
-            <li>Current knowledge</li>
-            <li>Sourced lesson</li>
-            <li>Assignment + xUnit tests</li>
-            <li>Updated state, committed</li>
+            <li>Checks what you know</li>
+            <li>Teaches one short lesson</li>
+            <li>Gives you an exercise</li>
+            <li>Remembers your progress</li>
           </ol>
         </div>
         <div class="card-body">
-          <div class="tags"><span>Claude Code</span><span>C# / .NET</span><span>Education</span></div>
+          <p class="kicker">AI · Tutor</p>
           <h3>teach-code</h3>
-          <p>A Claude Code skill that teaches programming over many sessions. It keeps a persistent record of what you know, writes one cited lesson at a time, and grades assignments with real test runs.</p>
+          <p class="plain">A <strong>personal coding tutor</strong> built on Claude. It remembers what you already know, teaches one short lesson at a time with real sources, gives you a hands-on exercise, checks your work, and picks up where you left off next time.</p>
+          <details class="tech"><summary>How it's built</summary>
+            <p>A Claude Code skill (default stack .NET / C#) with persistent state files per topic, cited research, xUnit assignments graded with <code>dotnet test</code>, build and format checks, and a git history of progress.</p>
+            <div class="tags"><span>Claude Code</span><span>C# / .NET</span><span>xUnit</span></div>
+          </details>
           <div class="actions"><a class="btn sm ghost" href="https://github.com/Rhea-Thomas/teach-code">Code ↗</a></div>
         </div>
       </article>
@@ -146,33 +172,39 @@
     <div class="feature-head">
       <p class="eyebrow">Interactive results</p>
       <h2>RiskFormer: explore the forecasts</h2>
-      <p class="sub">Every point below is an out-of-sample forecast from Jan 2023 to Dec 2025, on data the model never trained on. The RiskFormer shown is the model trained once on 2015–2021; the baselines are refit every quarter with only past data. Hover or tap a chart to read values.</p>
+      <p class="sub">The model learned from 2015–2021 market data. Everything below is from 2023–2025, which it had never seen, so this is a fair test of how it would have done in real life.</p>
+      <div class="explain">
+        <p><b>How to read this.</b> Pick one of three investment funds that track the US stock market (SPY = the 500 largest companies, QQQ = big tech, IWM = smaller companies). Then compare RiskFormer against the standard methods professionals use.</p>
+        <p><b>“Volatility”</b> just means how much prices swing. Calm market = low line, panicky market = high line. The big spike in April 2025 is the tariff-announcement sell-off.</p>
+        <p>Hover over or tap any chart to see the exact numbers for that day.</p>
+      </div>
     </div>
 
     <div class="controls">
       <div class="seg" id="rf-assets" role="group" aria-label="ETF"></div>
       <div class="chips" id="rf-models" aria-label="Models to compare"></div>
     </div>
+    <p class="note controls-note">Tick a box to add a competitor. GARCH, EWMA and HAR are the standard methods taught in finance courses and used by risk teams; “20-day rolling” simply assumes the next month will look like the last one.</p>
 
     <div class="stats" id="rf-stats"></div>
 
     <figure class="panel">
-      <figcaption><b><span id="rf-asset-name"></span> volatility: forecast vs realized</b><span>Annualized, %. Gray is what actually happened over the next 5 days.</span></figcaption>
+      <figcaption><b>Chart 1 · How bumpy will <span id="rf-asset-name"></span> be? Predicted vs. what happened</b><span>Gray is what actually happened. Each colored line is a prediction made the day before. The closer a line hugs the gray, the better the prediction.</span></figcaption>
       <div class="legend" id="rf-vol-legend"></div>
       <div class="chart" id="rf-vol"></div>
     </figure>
 
     <figure class="panel">
-      <figcaption><b><span id="rf-asset-name2"></span> daily returns vs RiskFormer's 90% interval</b><span>If the uncertainty is the right size, about 1 day in 10 lands outside the band.</span></figcaption>
-      <div class="legend"><span class="key"><span class="sw band-sw s1"></span>90% interval</span><span class="key"><span class="sw pt-sw"></span>Inside</span><span class="key"><span class="sw pt-out-sw"></span>Outside</span></div>
+      <figcaption><b>Chart 2 · Does RiskFormer know what it doesn't know? (<span id="rf-asset-name2"></span>)</b><span>Each dot is one day's price change. The shaded band is RiskFormer saying “I'm 90% sure it'll land in here.” If it's honest about its uncertainty, about 1 dot in 10 should fall outside (shown in red), no more and no less.</span></figcaption>
+      <div class="legend"><span class="key"><span class="sw band-sw s1"></span>RiskFormer’s 90% range</span><span class="key"><span class="sw pt-sw"></span>Day inside the range</span><span class="key"><span class="sw pt-out-sw"></span>Day outside the range</span></div>
       <div class="chart" id="rf-int"></div>
     </figure>
 
     <figure class="panel">
-      <figcaption><b>Backtests: growth of 100, net of costs</b><span>Equal-weight portfolio of all three ETFs, 10 bps per unit of turnover, 10% volatility target.</span></figcaption>
+      <figcaption><b>Chart 3 · Would it have made money? $100 invested in Jan 2023</b><span>Dashed: just buy the three funds and hold them. Colored: a strategy that invests less when a model predicts rough markets and more when it predicts calm ones. Trading costs are included.</span></figcaption>
       <div class="legend" id="rf-eq-legend"></div>
       <div class="chart" id="rf-eq"></div>
-      <p class="note">The honest result: better volatility forecasts did not beat buy and hold in this bull market. Vol targeting cut exposure after the April 2025 shock and missed part of the rebound. The project reports this rather than tuning it away.</p>
+      <p class="note"><b>The honest answer: no.</b> 2023–2025 was a strong rising market, and simply holding on won. The cautious strategies sold after the April 2025 crash and missed some of the bounce back. Predicting risk well is useful for staying safe, but it isn't a money machine, and the project says so plainly instead of hiding it.</p>
     </figure>
   </section>
 
@@ -181,7 +213,11 @@
     <div class="feature-head">
       <p class="eyebrow">Live demo</p>
       <h2>Mosaic Generator: try it</h2>
-      <p class="sub">This is the project's pipeline ported to JavaScript, so it runs entirely in your browser. Your photo is never uploaded anywhere. 10 of the 14 tile styles are included here; the full set is in the Python app.</p>
+      <p class="sub">Play with it: drag the slider, change the colors and tile shapes, or upload your own photo. It all runs on your device, so <b>your photo is never uploaded anywhere</b>.</p>
+      <div class="explain">
+        <p><b>What's happening.</b> The photo is cut into a grid of squares (the slider sets how many). Each square takes its average color, gets matched to the closest color in the palette you picked, and is then drawn as a tile in the shape you chose.</p>
+        <p>The scores underneath measure how much the mosaic still looks like the original. More tiles and solid shapes score higher; fancy patterns look artsier but score lower.</p>
+      </div>
     </div>
 
     <div class="mz-controls panel">
@@ -201,16 +237,16 @@
     </div>
 
     <div class="mz-grid">
-      <figure><canvas id="mz-orig"></canvas><figcaption>1 · Original (cropped to the grid)</figcaption></figure>
-      <figure><canvas id="mz-seg"></canvas><figcaption>2 · Each cell snapped to the palette</figcaption></figure>
-      <figure class="big"><canvas id="mz-out"></canvas><figcaption>3 · Mosaic</figcaption></figure>
+      <figure><canvas id="mz-orig"></canvas><figcaption>1 · Your photo</figcaption></figure>
+      <figure><canvas id="mz-seg"></canvas><figcaption>2 · Each square matched to the nearest palette color</figcaption></figure>
+      <figure class="big"><canvas id="mz-out"></canvas><figcaption>3 · The finished mosaic</figcaption></figure>
     </div>
 
     <div class="stats four">
-      <div class="stat"><div class="k">MSE ↓</div><div class="v" id="mz-mse">–</div><div class="s">Pixel error vs original (grayscale)</div></div>
-      <div class="stat"><div class="k">SSIM ↑</div><div class="v" id="mz-ssim">–</div><div class="s">Structural similarity, 0 to 1</div></div>
-      <div class="stat"><div class="k">PSNR ↑</div><div class="v" id="mz-psnr">–</div><div class="s">Signal-to-noise ratio</div></div>
-      <div class="stat"><div class="k">Time</div><div class="v" id="mz-time">–</div><div class="s">In your browser</div></div>
+      <div class="stat"><div class="k">Difference (MSE)</div><div class="v" id="mz-mse">–</div><div class="s">Lower = closer to the original</div></div>
+      <div class="stat"><div class="k">Likeness (SSIM)</div><div class="v" id="mz-ssim">–</div><div class="s">0 to 1. Higher = shapes look more alike</div></div>
+      <div class="stat"><div class="k">Clarity (PSNR)</div><div class="v" id="mz-psnr">–</div><div class="s">Higher = less visual noise</div></div>
+      <div class="stat"><div class="k">Time taken</div><div class="v" id="mz-time">–</div><div class="s">On your device</div></div>
     </div>
     <p class="note" id="mz-status" aria-live="polite"></p>
     <p class="note">Sample photo: <code>coffee</code> from scikit-image's sample data (CC0). Large uploads are scaled to 800 px on the long side first.</p>
@@ -221,7 +257,7 @@
     <div class="feature-head">
       <p class="eyebrow">Screenshots</p>
       <h2>Black Hole Tracker</h2>
-      <p class="sub">The app runs on Flask and PostgreSQL, so it isn't hosted here. These are real screenshots of it running against the sample database.</p>
+      <p class="sub">This one needs a server and a database running behind it, so it can't run on this page. These are real screenshots of it in action: searching the catalog, browsing gravitational-wave events, building a custom dashboard and viewing reports. Click a thumbnail to switch.</p>
     </div>
     <figure class="panel gallery">
       <div class="shot-frame" tabindex="0" aria-label="Screenshot, scrollable"><img id="bh-main" src="assets/blackhole/home.jpg" alt="Home page"></div>

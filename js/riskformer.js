@@ -9,10 +9,10 @@ const MODELS = [
   { key: "20-day rolling", cls: "s5", on: false },
 ];
 const EQUITY = [
-  { key: "Buy & hold", cls: "s0", dash: "5 4", label: "Buy & hold" },
-  { key: "Vol-target (RiskFormer)", cls: "s1", label: "Vol-target, RiskFormer σ" },
-  { key: "Vol-target (GARCH(1,1))", cls: "s2", label: "Vol-target, GARCH σ" },
-  { key: "Vol-target (EWMA)", cls: "s3", label: "Vol-target, EWMA σ" },
+  { key: "Buy & hold", cls: "s0", dash: "5 4", label: "Just buy and hold" },
+  { key: "Vol-target (RiskFormer)", cls: "s1", label: "Cautious strategy, using RiskFormer" },
+  { key: "Vol-target (GARCH(1,1))", cls: "s2", label: "Cautious strategy, using GARCH" },
+  { key: "Vol-target (EWMA)", cls: "s3", label: "Cautious strategy, using EWMA" },
 ];
 
 const corr = (a, b) => {
@@ -50,12 +50,12 @@ export async function initRiskFormer(root) {
     const A = data.per_asset[asset];
     const pct = (v) => `${v.toFixed(0)}%`;
     root.querySelector("#rf-vol-legend").innerHTML =
-      `<span class="key"><span class="sw s0"></span>Realized</span>` +
+      `<span class="key"><span class="sw s0"></span>What actually happened</span>` +
       MODELS.filter((m) => m.on).map((m) => `<span class="key"><span class="sw ${m.cls}"></span>${m.key}</span>`).join("");
     lineChart(root.querySelector("#rf-vol"), {
       dates: data.dates, label: `${asset} volatility forecasts vs realized`,
       series: [
-        { name: "Realized (next 5 days)", values: A.realized, cls: "s0", width: 1.25 },
+        { name: "What actually happened", values: A.realized, cls: "s0", width: 1.25 },
         ...MODELS.filter((m) => m.on).map((m) => ({ name: m.key, values: A.sigma[m.key], cls: m.cls })),
       ],
       yFmt: pct, zero: true,
@@ -66,8 +66,8 @@ export async function initRiskFormer(root) {
     lineChart(root.querySelector("#rf-int"), {
       dates: data.dates, label: `${asset} daily returns and RiskFormer 90% interval`,
       series: [],
-      band: { lo: A.q05, hi: A.q95, cls: "s1", name: "90% interval" },
-      points: { values: A.ret, outside, name: "Actual return" },
+      band: { lo: A.q05, hi: A.q95, cls: "s1", name: "90% range" },
+      points: { values: A.ret, outside, name: "Actual price change" },
       yFmt: (v) => `${v.toFixed(1)}%`, height: 240,
     });
 
@@ -80,9 +80,9 @@ export async function initRiskFormer(root) {
     const c = (k) => corr(A.sigma[k], A.realized);
     const best = MODELS.map((m) => [m.key, c(m.key)]).sort((a, b) => b[1] - a[1])[0];
     root.querySelector("#rf-stats").innerHTML = `
-      <div class="stat"><div class="k">RiskFormer forecast vs realized vol, correlation</div><div class="v">${c("RiskFormer").toFixed(2)}</div><div class="s">GARCH: ${c("GARCH(1,1)").toFixed(2)} · best of five: ${best[0]}</div></div>
-      <div class="stat"><div class="k">Returns inside the 90% interval</div><div class="v">${(cover * 100).toFixed(1)}%</div><div class="s">Target 90%. ${outside.filter(Boolean).length} of ${outside.length} days fell outside</div></div>
-      <div class="stat"><div class="k">Out-of-sample days</div><div class="v">${data.dates.length}</div><div class="s">${asset}, never seen in training</div></div>`;
+      <div class="stat"><div class="k">How closely RiskFormer's predictions tracked reality</div><div class="v">${c("RiskFormer").toFixed(2)}</div><div class="s">Scale of 0 to 1 (correlation). The standard GARCH method: ${c("GARCH(1,1)").toFixed(2)}. Best of all five: ${best[0]}</div></div>
+      <div class="stat"><div class="k">When it said “90% sure,” it was right</div><div class="v">${(cover * 100).toFixed(1)}%</div><div class="s">of the time. The goal is 90%: ${outside.filter(Boolean).length} of ${outside.length} days fell outside its range</div></div>
+      <div class="stat"><div class="k">Trading days tested</div><div class="v">${data.dates.length}</div><div class="s">${asset}, Jan 2023 to Dec 2025, all unseen during training</div></div>`;
     root.querySelector("#rf-asset-name").textContent = asset;
     root.querySelector("#rf-asset-name2").textContent = asset;
   }
